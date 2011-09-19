@@ -1,0 +1,9 @@
+; $Id: ask_expert.info
+name = Ask an Expert Widget
+description = Adds eXtension configurable AaE widget and block with linked AaE graphic.
+package = Other
+core = 6.x
+version = "6.x-1.3"
+core = "6.x"
+project = "ask_expert"
+

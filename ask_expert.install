@@ -1,0 +1,23 @@
+<?php
+// $Id: ask_expert.install
+
+/**
+* Implementation of hook_install()
+*/
+function ask_expert_install() {
+  variable_set('ask_expert_widget_iframe_code', '<iframe style="border:0" width="100%" src="https://www.extension.org/widget/tracking/758868066eb74f953fcdb01a4e10e1972f63eb39/OR" height="460px"></iframe>');
+  variable_set('ask_expert_block_title', '');
+  variable_set('ask_expert_header_text', '<p class="aae-header-text">Ask an Expert is a way for you to get answers from the Oregon State University Extension Service.  We have experts in family and health, community development, food and agriculture, coastal issues, forestry, programs for young people, and gardening.</p>
+  <p>Please choose your county and enter as much relevant detail about your question as possible. We will do our best to respond to your question within two business days.</p><br />');
+  variable_set('ask_expert_footer_text', '<p class="aae-footer-text"><p>');
+
+}
+
+/**
+* Implementation of hook_uninstall()
+*/
+function ask_expert_uninstall() {
+  // Remove the module from the system table
+  db_query("DELETE FROM {system} WHERE `name` = 'ask_expert'");
+	db_query("DELETE FROM {variable} WHERE `name` LIKE 'ask_expert_%'");
+}

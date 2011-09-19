@@ -1,0 +1,156 @@
+<?php
+// $Id: ask_expert.module 
+/**
+ * Ask an Expert
+ * Module for adding eXtension Ask an Expert Widget.
+ * This module provides configuration settings, a page and block for display of the widget.
+ * @see http://www.extension.org/widgets/aae
+ */
+
+/**
+ * Implementation of hook_help()
+ * Provide online user help.
+ *
+ * @param $path
+ * @param $arg
+ * @return
+ *   Help text
+ */
+function ask_expert_help($path, $arg) {
+  switch ($path) {
+  	case 'admin/settings/ask-expert':
+  		return '<p>'. t('The Ask an Expert module provides a block that links to a page which displays the widget and configurable administrative settings.<br />Learn more about the widget at <a href="http://www.extension.org/widgets/aae/about">http://www.extension.org/widgets/aae/about</a>') .'</p>';
+    case 'admin/help#ask_expert':
+      return '<p>'. t('The Ask an Expert module provides a block that links to a page which displays the widget and configurable administrative settings.<br />Learn more about the widget at <a href="http://www.extension.org/widgets/aae/about">http://www.extension.org/widgets/aae/about</a>') .'</p>';
+    default:
+      return '';
+  }
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function ask_expert_perm() {
+  return array('administer AaE settings');
+}
+
+/**
+* Implementation of hook_block().
+* @param string $op one of "list", "view", "save" and "configure"
+* @param integer $delta code to identify the block
+*/
+
+function ask_expert_block($op='list', $delta=0, $edit=array()) {
+	
+	switch ($op) {
+		
+		case 'list':
+			$block[0]['info'] = t('Ask an Expert');
+		break;
+		
+		case 'view':
+			$eXtension_logo = '<img src="'. base_path() . drupal_get_path('module', 'ask_expert') .'/theme/ask-an-expert.png" class="ask-expert-logo-image" alt="Ask an Expert logo" />';
+			t('<a href="@aae_link">' .$eXtension_logo. '</a>', array('@aae_link' => base_path() .'ask-an-expert'));
+			$block['subject'] = variable_get('ask_expert_block_title', NULL);
+			$block['content'] = 	t('<a href="@aae_link" title="Life. Get good at it. Ask an Expert">' . $eXtension_logo. '</a>', array('@aae_link' => base_path() .'ask-an-expert'));
+		break;
+		
+		default: 
+	}
+	
+	return $block;
+	
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function ask_expert_menu() {
+  $items = array();
+  $items['admin/settings/ask-expert'] = array(
+    'title' => t('Ask an Expert Widget'),
+    'description' => t('Administer settings related to the Ask an Expert module.'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ask_expert_admin_settings'),
+    'access arguments' => array('administer AaE settings'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+	$items['ask-an-expert'] = array(
+  	'title' => 'Ask an Expert',
+  	'page callback' => 'ask_expert_page',
+  	'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+	);
+	
+  return $items;
+}
+
+/*
+ * Admin Settings form for Ask an Expert
+ */
+function ask_expert_admin_settings() {
+  $form['ask_expert_this_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Ask an Expert Configuration Settings'),
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE
+  );
+
+  $form['ask_expert_this_settings']['ask_expert_widget_iframe_code'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Widget IFrame Code'),
+    '#description' => t('<div>This code can be found on the eXtension widget list page - <a href="http://www.extension.org/widgets/aae/list">http://www.extension.org/widgets/aae/list</a>.</div> <div>The CSS style, width and the height can be changed if desired.</div>'),
+    '#default_value' => variable_get('ask_expert_widget_iframe_code', '<iframe style="border:0" width="100%" src="https://www.extension.org/widget/tracking/758868066eb74f953fcdb01a4e10e1972f63eb39/OR" height="460px"></iframe>'),
+    '#required' => TRUE
+  );
+
+  $form['ask_expert_this_settings']['ask_expert_header_text'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Widget header text'),
+    '#description' => t('This text will display <strong>above</strong> the widget. Use HTML to format.'),
+    '#default_value' => variable_get('ask_expert_header_text', '<p class="aae-header-text">Ask an Expert is a way for you to get answers from the Oregon State University Extension Service.  We have experts in family and health, community development, food and agriculture, coastal issues, forestry, programs for young people, and gardening.</p>
+    <p>Please choose your county and enter as much relevant detail about your question as possible. We will do our best to respond to your question within two business days.</p><br />'),
+    '#required' => FALSE
+  );
+
+  $form['ask_expert_this_settings']['ask_expert_footer_text'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Widget page footer text'),
+    '#description' => t('This text will display below the widget. Use HTML to format.'),
+    '#default_value' => variable_get('ask_expert_footer_text', '<p class="aae-footer-text"><p>'),
+    '#required' => FALSE
+  );
+
+ $form['ask_expert_this_settings']['ask_expert_block_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Widget block title'),
+    '#description' => t('The title of the Ask an Expert block'),
+    '#default_value' => variable_get('ask_expert_block_title', ''),
+    '#required' => FALSE
+  );
+ 
+  return system_settings_form($form);
+}
+
+/**
+ * A simple page callback.
+ *
+ * Page callbacks are required to return the entire page. The content
+ * is then usually output via a call to theme('page'), where the theme system
+ * will then surround the content in the appropriate blocks, navigation, and
+ * styling.
+ *
+ * If you do not want to use the theme system (for example for outputting an
+ * image or XML), you should print the content yourself and not return anything.
+ */
+function ask_expert_page() {
+  // content variable that will be returned for display
+	$aae_widget_iframe_code = variable_get('ask_expert_widget_iframe_code', NULL);
+	$widget_header_text = variable_get('ask_expert_header_text', NULL);
+	$widget_footer_text = variable_get('ask_expert_footer_text', NULL);
+
+	return '<div id="ask-expert-widget" class="ask-expert-widget">' . t($widget_header_text . $aae_widget_iframe_code . $widget_footer_text) . '</div>';
+}
+
+
