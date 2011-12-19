@@ -52,7 +52,7 @@ function ask_expert_block($op='list', $delta=0, $edit=array()) {
 			$eXtension_logo = '<img src="'. base_path() . drupal_get_path('module', 'ask_expert') .'/theme/ask-an-expert.png" class="ask-expert-logo-image" alt="Ask an Expert logo" />';
 			t('<a href="@aae_link">' .$eXtension_logo. '</a>', array('@aae_link' => base_path() .'ask-an-expert'));
 			$block['subject'] = variable_get('ask_expert_block_title', NULL);
-			$block['content'] = 	t('<a href="@aae_link" title="Life. Get good at it. Ask an Expert">' . $eXtension_logo. '</a>', array('@aae_link' => base_path() .'ask-an-expert'));
+			$block['content'] = 	t('<a href="@aae_link" title="Got a question? Ask an Expert">' . $eXtension_logo. '</a>', array('@aae_link' => base_path() .'ask-an-expert'));
 		break;
 		
 		default: 
