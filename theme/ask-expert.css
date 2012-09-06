@@ -1,0 +1,10 @@
+/* AAE css */
+#aae-header img#aae-header-logo {
+	float: right;
+	margin: 0 0 40px 25px;
+}
+
+#aae-footer img#aae-footer-logo {
+	float: left;
+	margin: 0 15px 40px 0;
+}
