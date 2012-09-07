@@ -29,8 +29,37 @@ function ask_expert_install() {
         See Ask an Expert <a href="http://extension.oregonstate.edu/extension-ask-an-expert/archive">Question of the Week</a>.
       </p>
     </div>');
+}
+
+/**
+* Updates the header and footer defaults.
+*/
+function ask_expert_update_6001() {
+variable_set('ask_expert_header_text', '<div id="aae-header">
+      <p>
+        <img src="http://extension.oregonstate.edu/_includes/images/ask_expert/ask-an-expert.png" alt="Ask an Expert logo" id="aae-header-logo" />Ask an Expert is a way for you to get answers from the Oregon State University Extension Service. We have experts in family and health, community development, food and agriculture, coastal issues, forestry, programs for young people, and gardening.
+      </p>
+      
+    </div>');
+  variable_set('ask_expert_footer_text', '<div id="aae-footer">
+      <img src="http://extension.oregonstate.edu/_includes/images/ask_expert/ask-an-expert-laptop.png" alt="Ask an Expert logo" id="aae-footer-logo" />
+      <h2>
+        Learn more about Ask an Expert
+      </h2>
+      <p>
+        <strong>OSU\'s Ask an Expert is fourth busiest in nation</strong> (from the Gazette Times)<br />
+        Our Internet-based Ask an Expert service offered through Oregon State University\'s Extension Service has helped to resolve 3,565 questions since March 2011. <a href="http://www.gazettetimes.com/news/local/osu-s-ask-an-expert-is-fourth-busiest-in-nation/article_bd4d89c6-c803-11e1-8088-0019bb2963f4.html">Read the OSU\'s Ask an Expert article »</a>
+      </p>
+      <p>
+        <strong>Want to know what kind of questions people are asking?</strong><br />
+        See Ask an Expert <a href="http://extension.oregonstate.edu/extension-ask-an-expert/archive">Question of the Week</a>.
+      </p>
+    </div>');
+
+  drupal_set_message(t('Ask an Expert header and footer defaults updated.'));
 
 }
+
 
 /**
 * Implementation of hook_uninstall()
