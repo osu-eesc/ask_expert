@@ -89,7 +89,7 @@ function ask_expert_update_6002() {
 
 }
 
-function ask_expert_update_6002() {
+function ask_expert_update_6003() {
   variable_set('ask_expert_footer_text', '<div id="aae-footer">
     <img src="http://extension.oregonstate.edu/_includes/images/ask_expert/ask-an-expert-laptop.png" alt="Ask an Expert logo" id="aae-footer-logo" />
     <h2>
