@@ -28,38 +28,49 @@ function ask_expert_help($path, $arg) {
 }
 
 /**
- * Implementation of hook_perm().
+ * Implementation of hook_permission().
  */
-function ask_expert_perm() {
-  return array('administer AaE settings');
+function ask_expert_permission() {
+  return array(
+    'administer AaE settings' => array(
+      'title' => t('administer ask an expert settings'),
+      'description' => t('Configure settings'),
+    ),
+  );
 }
 
 /**
-* Implementation of hook_block().
-* @param string $op one of "list", "view", "save" and "configure"
+ * Implementation of block_info().
+ */
+function ask_expert_block_info() {    
+  $blocks['ask_expert'] = array(
+    // info: The name of the block.
+    'info' => t('Ask an Expert'),
+  );
+
+  return $blocks;
+}
+
+
+/**
+* Implementation of hook_block_view().
 * @param integer $delta code to identify the block
 */
 
-function ask_expert_block($op='list', $delta=0, $edit=array()) {
-	
-	switch ($op) {
-		
-		case 'list':
-			$block[0]['info'] = t('Ask an Expert');
-		break;
-		
-		case 'view':
-			$ask_expert_logo = '<img src="'. base_path() . drupal_get_path('module', 'ask_expert') . '/theme/ask-expert.png" class="ask-expert-logo-image" alt="Ask an Expert logo" />';
-			t('<a href="@aae_link">' . $ask_expert_logo . '</a>', array('@aae_link' => base_path() . 'ask-an-expert'));
-			$block['subject'] = variable_get('ask_expert_block_title', NULL);
-			$block['content'] = 	t('<a href="@aae_link" title="Got a question? Ask an Expert">' . $ask_expert_logo. '</a>', array('@aae_link' => base_path() . 'ask-an-expert'));
-		break;
-		
-		default: 
-	}
-	
-	return $block;
-	
+function ask_expert_block_view($delta = '') {
+  // The $delta parameter tells us which block is being requested.
+  switch ($delta) {
+    case 'ask_expert':
+      // Create your block content here
+      $block['subject'] = t('');
+      $block['content'] = $ask_expert_logo = '<img src="'. base_path() . drupal_get_path('module', 'ask_expert') . '/theme/ask-expert.png" class="ask-expert-logo-image" alt="Ask an Expert logo" />';
+      t('<a href="@aae_link">' . $ask_expert_logo . '</a>', array('@aae_link' => base_path() . 'ask-an-expert'));
+      $block['subject'] = variable_get('ask_expert_block_title', NULL);
+      $block['content'] =   t('<a href="@aae_link" title="Got a question? Ask an Expert">' . $ask_expert_logo. '</a>', array('@aae_link' => base_path() . 'ask-an-expert'));
+      break;
+  }
+
+  return $block;
 }
 
 /**
@@ -67,7 +78,7 @@ function ask_expert_block($op='list', $delta=0, $edit=array()) {
  */
 function ask_expert_menu() {
   $items = array();
-  $items['admin/settings/ask-expert'] = array(
+  $items['admin/config/ask-expert'] = array(
     'title' => t('Ask an Expert Widget'),
     'description' => t('Administer settings related to the Ask an Expert module.'),
     'page callback' => 'drupal_get_form',
