@@ -5,7 +5,7 @@
 * Implementation of hook_install()
 */
 function ask_expert_install() {
-  variable_set('ask_expert_widget_iframe_code', '<iframe style="border:0" width="100%" src="https://www.extension.org/widget/tracking/758868066eb74f953fcdb01a4e10e1972f63eb39/OR" height="460px"></iframe>');
+  variable_set('ask_expert_widget_iframe_code', '<iframe style="border:0" width="100%" src="https://ask.extension.org/widget/tracking/758868066eb74f953fcdb01a4e10e1972f63eb39" height="460px"></iframe>');
   variable_set('ask_expert_block_title', '');
   variable_set('ask_expert_header_text', '<div id="aae-header">
       <p>
@@ -112,6 +112,13 @@ function ask_expert_update_6003() {
   </div>');
 
   drupal_set_message(t('Ask an Expert footer defaults updated.'));
+
+}
+
+function ask_expert_update_6004() {
+  variable_set('ask_expert_widget_iframe_code', '<iframe style="border:0" width="100%" src="https://ask.extension.org/widget/tracking/758868066eb74f953fcdb01a4e10e1972f63eb39" height="460px"></iframe>');
+
+  drupal_set_message(t('Ask an Expert iframe code updated.'));
 
 }
 

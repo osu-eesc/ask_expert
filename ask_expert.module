@@ -100,8 +100,8 @@ function ask_expert_admin_settings() {
   $form['ask_expert_this_settings']['ask_expert_widget_iframe_code'] = array(
     '#type' => 'textarea',
     '#title' => t('Widget IFrame Code'),
-    '#description' => t('<div>This code can be found on the eXtension widget list page - <a href="http://www.extension.org/widgets/aae/list">http://www.extension.org/widgets/aae/list</a>.</div> <div>The CSS style, width and the height can be changed if desired.</div>'),
-    '#default_value' => variable_get('ask_expert_widget_iframe_code', '<iframe style="border:0" width="100%" src="https://www.extension.org/widget/tracking/758868066eb74f953fcdb01a4e10e1972f63eb39/OR" height="480px"></iframe>'),
+    '#description' => t('<div>This code can be found on the eXtension widget list page - <a href="https://ask.extension.org/expert/groups">https://ask.extension.org/expert/groups</a>.</div> <div>The CSS style, width and the height can be changed if desired.</div>'),
+    '#default_value' => variable_get('ask_expert_widget_iframe_code', '<iframe style="border:0" width="100%" src="https://ask.extension.org/widget/tracking/758868066eb74f953fcdb01a4e10e1972f63eb39" height="480px"></iframe>'),
     '#required' => TRUE
   );
 
