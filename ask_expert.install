@@ -39,7 +39,7 @@ variable_set('ask_expert_header_text', '<div id="aae-header">
       <p>
         <img src="http://extension.oregonstate.edu/_includes/images/ask_expert/ask-an-expert.png" alt="Ask an Expert logo" id="aae-header-logo" />Ask an Expert is a way for you to get answers from the Oregon State University Extension Service. We have experts in family and health, community development, food and agriculture, coastal issues, forestry, programs for young people, and gardening.
       </p>
-      
+
     </div>');
   variable_set('ask_expert_footer_text', '<div id="aae-footer">
       <img src="http://extension.oregonstate.edu/_includes/images/ask_expert/ask-an-expert-laptop.png" alt="Ask an Expert logo" id="aae-footer-logo" />
@@ -122,7 +122,27 @@ function ask_expert_update_6004() {
 
 }
 
+function ask_expert_update_6005() {
+  variable_set('ask_expert_widget_iframe_code', '<!-- Ask an Expert widget -->
+<script type="text/javascript">
+  (function() {
+    function async_load(){
+      var aae = document.createElement("script"); aae.type = "text/javascript"; aae.async = true;
+      aae.src = "https://ask.extension.org/groups/1086/ask_widget.js";
+      var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(aae, s);
+    }
+    if (window.attachEvent)
+      window.attachEvent("onload", async_load);
+    else
+      window.addEventListener("load", async_load, false);
+  })();
+</script>
+<div id="aae-1086"></div>
+<!-- End Ask an Expert widget -->');
 
+  drupal_set_message(t('Ask an Expert iframe code updated.'));
+
+}
 /**
 * Implementation of hook_uninstall()
 */

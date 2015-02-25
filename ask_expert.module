@@ -1,5 +1,5 @@
 <?php
-// $Id: ask_expert.module 
+// $Id: ask_expert.module
 /**
  * Ask an Expert
  * Module for adding eXtension Ask an Expert Widget.
@@ -41,25 +41,25 @@ function ask_expert_perm() {
 */
 
 function ask_expert_block($op='list', $delta=0, $edit=array()) {
-	
+
 	switch ($op) {
-		
+
 		case 'list':
 			$block[0]['info'] = t('Ask an Expert');
 		break;
-		
+
 		case 'view':
 			$ask_expert_logo = '<img src="'. base_path() . drupal_get_path('module', 'ask_expert') . '/theme/ask-expert.png" class="ask-expert-logo-image" alt="Ask an Expert logo" />';
 			t('<a href="@aae_link">' . $ask_expert_logo . '</a>', array('@aae_link' => base_path() . 'ask-an-expert'));
 			$block['subject'] = variable_get('ask_expert_block_title', NULL);
 			$block['content'] = 	t('<a href="@aae_link" title="Got a question? Ask an Expert">' . $ask_expert_logo. '</a>', array('@aae_link' => base_path() . 'ask-an-expert'));
 		break;
-		
-		default: 
+
+		default:
 	}
-	
+
 	return $block;
-	
+
 }
 
 /**
@@ -82,7 +82,7 @@ function ask_expert_menu() {
   	'access callback' => TRUE,
     'type' => MENU_CALLBACK,
 	);
-	
+
   return $items;
 }
 
@@ -101,7 +101,22 @@ function ask_expert_admin_settings() {
     '#type' => 'textarea',
     '#title' => t('Widget IFrame Code'),
     '#description' => t('<div>This code can be found on the eXtension widget list page - <a href="https://ask.extension.org/expert/groups">https://ask.extension.org/expert/groups</a>.</div> <div>The CSS style, width and the height can be changed if desired.</div>'),
-    '#default_value' => variable_get('ask_expert_widget_iframe_code', '<iframe style="border:0" width="100%" src="https://ask.extension.org/widget/tracking/758868066eb74f953fcdb01a4e10e1972f63eb39" height="480px"></iframe>'),
+    '#default_value' => variable_get('ask_expert_widget_iframe_code', '<!-- Ask an Expert widget -->
+<script type="text/javascript">
+  (function() {
+    function async_load(){
+      var aae = document.createElement("script"); aae.type = "text/javascript"; aae.async = true;
+      aae.src = "https://ask.extension.org/groups/1086/ask_widget.js";
+      var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(aae, s);
+    }
+    if (window.attachEvent)
+      window.attachEvent("onload", async_load);
+    else
+      window.addEventListener("load", async_load, false);
+  })();
+</script>
+<div id="aae-1086"></div>
+<!-- End Ask an Expert widget -->'),
     '#required' => TRUE
   );
 
@@ -133,8 +148,8 @@ function ask_expert_admin_settings() {
       </h2>
       <p>
         <strong>OSU\'s Ask an Expert is third busiest in nation</strong> (from the Gazette Times)<br />
-        Our Internet-based Ask an Expert service offered through Oregon State University\'s 
-        Extension Service has helped to resolve 3,565 questions since March 2011. 
+        Our Internet-based Ask an Expert service offered through Oregon State University\'s
+        Extension Service has helped to resolve 3,565 questions since March 2011.
         <a href="http://www.gazettetimes.com/news/local/osu-s-ask-an-expert-is-fourth-busiest-in-nation/article_bd4d89c6-c803-11e1-8088-0019bb2963f4.html">Read the OSU\'s Ask an Expert article »</a>
       </p>
       <p>
@@ -157,7 +172,7 @@ function ask_expert_admin_settings() {
     '#default_value' => variable_get('ask_expert_block_title', ''),
     '#required' => FALSE
   );
- 
+
   return system_settings_form($form);
 }
 
