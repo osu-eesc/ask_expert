@@ -5,21 +5,37 @@
 * Implementation of hook_install()
 */
 function ask_expert_install() {
-  variable_set('ask_expert_widget_iframe_code', '<iframe style="border:0" width="100%" src="https://ask.extension.org/widget/tracking/758868066eb74f953fcdb01a4e10e1972f63eb39" height="460px"></iframe>');
+  variable_set('ask_expert_widget_code', '<!-- Ask an Expert widget -->
+<script type="text/javascript">
+  (function() {
+    function async_load(){
+      var aae = document.createElement(\'script\'); aae.type = \'text/javascript\'; aae.async = true;
+      aae.src = "https://ask.extension.org/groups/1086/ask_widget.js";
+      var s = document.getElementsByTagName(\'script\')[0];s.parentNode.insertBefore(aae, s);
+    }
+    if (window.attachEvent)
+      window.attachEvent(\'onload\', async_load);
+    else
+      window.addEventListener(\'load\', async_load, false);
+  })();
+</script>
+<div id="aae-1086"></div>
+<!-- End Ask an Expert widget -->');
+
+  // set images for widget
+  $ask_expert_logo = '<img src="'. base_path() . drupal_get_path('module', 'ask_expert') . '/theme/ask-expert.png" class="ask-expert-header-image" alt="Ask an Expert logo" />';
+  $ask_expert_laptop = '<img src="'. base_path() . drupal_get_path('module', 'ask_expert') . '/theme/ask-expert-laptop.png" class="ask-expert-footer-image" alt="Ask an Expert laptop image" />';
+
   variable_set('ask_expert_block_title', '');
   variable_set('ask_expert_header_text', '<div id="aae-header">
       <p>
-        <img src="http://extension.oregonstate.edu/_includes/images/ask_expert/ask-an-expert.png" alt="Ask an Expert logo" id="aae-header-logo" />Ask an Expert is a way for you to get answers from the Oregon State University Extension Service. We have experts in family and health, community development, food and agriculture, coastal issues, forestry, programs for young people, and gardening.
+        ' . $ask_expert_logo . 'Ask an Expert is a way for you to get answers from the Oregon State University Extension Service. We have experts in family and health, community development, food and agriculture, coastal issues, forestry, programs for young people, and gardening.
       </p>
       <p>
         Please choose your county and enter as much relevant detail about your question as possible. We will do our best to respond to your question within two business days.
       </p><br />
     </div>');
-  variable_set('ask_expert_footer_text', '<div id="aae-footer">
-      <img src="http://extension.oregonstate.edu/_includes/images/ask_expert/ask-an-expert-laptop.png" alt="Ask an Expert logo" id="aae-footer-logo" />
-      <h2>
-        Learn more about Ask an Expert
-      </h2>
+  variable_set('ask_expert_footer_text', '<div id="aae-footer">' . $ask_expert_laptop . '<h2>Learn more about Ask an Expert</h2>
       <p>
         <strong>OSU\'s Ask an Expert is fourth busiest in nation</strong> (from the Gazette Times)<br />
         Our Internet-based Ask an Expert service offered through Oregon State University\'s Extension Service has helped to resolve 3,565 questions since March 2011. <a href="http://www.gazettetimes.com/news/local/osu-s-ask-an-expert-is-fourth-busiest-in-nation/article_bd4d89c6-c803-11e1-8088-0019bb2963f4.html">Read the OSU\'s Ask an Expert article »</a>
@@ -143,11 +159,39 @@ function ask_expert_update_6005() {
   drupal_set_message(t('Ask an Expert iframe code updated.'));
 
 }
+
+function ask_expert_update_6006() {
+  variable_set('ask_expert_widget_code', '<!-- Ask an Expert widget -->
+<script type="text/javascript">
+  (function() {
+    function async_load(){
+      var aae = document.createElement("script"); aae.type = "text/javascript"; aae.async = true;
+      aae.src = "https://ask.extension.org/groups/1086/ask_widget.js";
+      var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(aae, s);
+    }
+    if (window.attachEvent)
+      window.attachEvent("onload", async_load);
+    else
+      window.addEventListener("load", async_load, false);
+  })();
+</script>
+<div id="aae-1086"></div>
+<!-- End Ask an Expert widget -->');
+
+  drupal_set_message(t('Ask an Expert widget code updated.'));
+
+}
+
+
 /**
 * Implementation of hook_uninstall()
 */
 function ask_expert_uninstall() {
   // Remove the module from the system table
   db_query("DELETE FROM {system} WHERE `name` = 'ask_expert'");
-	db_query("DELETE FROM {variable} WHERE `name` LIKE 'ask_expert_%'");
+
+  // Remove aks_expert variables
+  db_query("DELETE FROM {variable} WHERE `name` LIKE 'ask_expert_%'");
 }
+
+

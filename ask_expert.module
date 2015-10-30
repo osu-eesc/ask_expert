@@ -19,9 +19,9 @@
 function ask_expert_help($path, $arg) {
   switch ($path) {
   	case 'admin/settings/ask-expert':
-  		return '<p>'. t('The Ask an Expert module provides a block that links to a page which displays the widget and configurable administrative settings.<br />Learn more about the widget at <a href="http://www.extension.org/widgets/aae/about">http://www.extension.org/widgets/aae/about</a>') .'</p>';
+  		return '<p>'. t('The Ask an Expert module provides a block that links to a page which displays the widget and configurable administrative settings.<br />Learn more about the widget at <a href="https://ask.extension.org/"> https://ask.extension.org </a>') .'</p>';
     case 'admin/help#ask_expert':
-      return '<p>'. t('The Ask an Expert module provides a block that links to a page which displays the widget and configurable administrative settings.<br />Learn more about the widget at <a href="http://www.extension.org/widgets/aae/about">http://www.extension.org/widgets/aae/about</a>') .'</p>';
+      return '<p>'. t('The Ask an Expert module provides a block that links to a page which displays the widget and configurable administrative settings.<br />Learn more about the widget at <a href="https://ask.extension.org</a>') .'</p>';
     default:
       return '';
   }
@@ -97,22 +97,22 @@ function ask_expert_admin_settings() {
     '#collapsed' => FALSE
   );
 
-  $form['ask_expert_this_settings']['ask_expert_widget_iframe_code'] = array(
+  $form['ask_expert_this_settings']['ask_expert_widget_code'] = array(
     '#type' => 'textarea',
-    '#title' => t('Widget IFrame Code'),
-    '#description' => t('<div>This code can be found on the eXtension widget list page - <a href="https://ask.extension.org/expert/groups">https://ask.extension.org/expert/groups</a>.</div> <div>The CSS style, width and the height can be changed if desired.</div>'),
-    '#default_value' => variable_get('ask_expert_widget_iframe_code', '<!-- Ask an Expert widget -->
+    '#title' => t('Widget Code'),
+    '#description' => t('<div>This code can be found on the eXtension widget list page - <a href="https://ask.extension.org</a>">https://ask.extension.org</a></a>.</div>'),
+    '#default_value' => variable_get('ask_expert_widget_code', '<!-- Ask an Expert widget -->
 <script type="text/javascript">
   (function() {
     function async_load(){
-      var aae = document.createElement("script"); aae.type = "text/javascript"; aae.async = true;
+      var aae = document.createElement(\'script\'); aae.type = \'text/javascript\'; aae.async = true;
       aae.src = "https://ask.extension.org/groups/1086/ask_widget.js";
-      var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(aae, s);
+      var s = document.getElementsByTagName(\'script\')[0];s.parentNode.insertBefore(aae, s);
     }
     if (window.attachEvent)
-      window.attachEvent("onload", async_load);
+      window.attachEvent(\'onload\', async_load);
     else
-      window.addEventListener("load", async_load, false);
+      window.addEventListener(\'load\', async_load, false);
   })();
 </script>
 <div id="aae-1086"></div>
@@ -120,19 +120,21 @@ function ask_expert_admin_settings() {
     '#required' => TRUE
   );
 
+  // set images for widget
+  $ask_expert_logo = '<img src="'. base_path() . drupal_get_path('module', 'ask_expert') . '/theme/ask-expert.png" class="ask-expert-header-image" alt="Ask an Expert logo" />';
+  $ask_expert_laptop = '<img src="'. base_path() . drupal_get_path('module', 'ask_expert') . '/theme/ask-expert-laptop.png" class="ask-expert-footer-image" alt="Ask an Expert laptop image" />';
+
   $form['ask_expert_this_settings']['ask_expert_header_text'] = array(
     '#type' => 'textarea',
     '#title' => t('Widget header text'),
     '#description' => t('This text will display <strong>above</strong> the widget. Use HTML to format.'),
     '#default_value' => variable_get('ask_expert_header_text', '<div id="aae-header">
       <p>
-        <img src="http://extension.oregonstate.edu/_includes/images/ask_expert/ask-an-expert.png" alt="Ask an Expert logo" id="aae-header-logo" />Ask an Expert is a way for you to get answers from the Oregon State University Extension Service. We have experts in family and health, community development, food and agriculture, coastal issues, forestry, programs for young people, and gardening.
+        ' . $ask_expert_logo . 'Ask an Expert is a way for you to get answers from the Oregon State University Extension Service. We have experts in family and health, community development, food and agriculture, coastal issues, forestry, programs for young people, and gardening.
       </p>
       <p>
-        Please choose your county and enter as much relevant detail about your question as possible.
-        We will do our best to respond to your question within two business days.
-      </p>
-      <br />
+        Please choose your county and enter as much relevant detail about your question as possible. We will do our best to respond to your question within two business days.
+      </p><br />
     </div>'),
     '#required' => FALSE
   );
@@ -141,25 +143,10 @@ function ask_expert_admin_settings() {
     '#type' => 'textarea',
     '#title' => t('Widget page footer text'),
     '#description' => t('This text will display below the widget. Use HTML to format.'),
-    '#default_value' => variable_get('ask_expert_footer_text', ' <div id="aae-footer">
-      <img src="http://extension.oregonstate.edu/_includes/images/ask_expert/ask-an-expert-laptop.png" alt="Ask an Expert logo" id="aae-footer-logo" />
-      <h2>
-        Learn more about Ask an Expert
-      </h2>
-      <p>
-        <strong>OSU\'s Ask an Expert is third busiest in nation</strong> (from the Gazette Times)<br />
-        Our Internet-based Ask an Expert service offered through Oregon State University\'s
-        Extension Service has helped to resolve 3,565 questions since March 2011.
-        <a href="http://www.gazettetimes.com/news/local/osu-s-ask-an-expert-is-fourth-busiest-in-nation/article_bd4d89c6-c803-11e1-8088-0019bb2963f4.html">Read the OSU\'s Ask an Expert article »</a>
-      </p>
+    '#default_value' => variable_get('ask_expert_footer_text', '<div id="aae-footer">' . $ask_expert_laptop . '<h2>Learn more about Ask an Expert</h2>
       <p>
         <strong>Want to know what kind of questions people are asking?</strong><br />
-        See Ask an Expert <a href="http://extension.oregonstate.edu/extension-ask-an-expert/archive">Featured Questions</a>.
-      </p>
-      <p class="aae-footer">
-        <strong>Need Help?</strong><br />
-        Having trouble submitting the form, please contact <strong>
-        <a href="http://extension.oregonstate.edu/group/eesc">EESC</a></strong>
+        See Ask an Expert <a href="http://extension.oregonstate.edu/extension-ask-an-expert/archive">Question of the Week</a>.
       </p>
     </div>'),
     '#required' => FALSE
@@ -189,13 +176,13 @@ function ask_expert_admin_settings() {
  */
 function ask_expert_page() {
   // content variable that will be returned for display
-	$aae_widget_iframe_code = variable_get('ask_expert_widget_iframe_code', NULL);
-	$widget_header_text = variable_get('ask_expert_header_text', NULL);
-	$widget_footer_text = variable_get('ask_expert_footer_text', NULL);
+  $aae_widget_code = variable_get('ask_expert_widget_code', NULL);
+  $widget_header_text = variable_get('ask_expert_header_text', NULL);
+  $widget_footer_text = variable_get('ask_expert_footer_text', NULL);
 
   drupal_add_css(drupal_get_path('module', 'ask_expert') .'/theme/ask-expert.css');
 
-	return '<div id="ask-expert-widget" class="ask-expert-widget">' . t($widget_header_text . $aae_widget_iframe_code . $widget_footer_text) . '</div>';
+  return '<div id="ask-expert-widget" class="ask-expert-widget">' . t($widget_header_text . $aae_widget_code . $widget_footer_text) . '</div>';
 }
 
 
